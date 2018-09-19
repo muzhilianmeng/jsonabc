@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>Json,Json format,Json validate,json2xml,xml2json</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all" />
+    <meta name="author" content="Json format online" />
+    <meta name="keywords" content="Json,Json format,Json validate,json2xml,xml2json"/>
+    <meta name="description" content="Json tools online"/>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/base.css" rel="stylesheet">
+</head>
+<body style="over-flow:hidden;">
+<header class="header">
+    <div class="row-fluid" >
+        <div class="col-md-5" style="position:relative;">
+            <a class="navbar-brand" href="#">
+                <img  src="images/logo.jpg" style="width: 138px;height: 45px;">
+            </a>
+        </div>
+        <br style="clear:both;" />
+    </div>
+</header>
+<div style="width:1000px;text-align: center;margin: auto;">
+    <div style="height: 100px"></div>
+    <div>
+        <div>
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation"><a href="index.html"  role="tab" data-toggle="tab">JSON format</a></li>
+                <li role="presentation"  ><a href="xml.html"  role="tab" data-toggle="tab">XML format</a></li>
+                <li role="presentation" class="active"><a href="json2xml.html"  role="tab" data-toggle="tab">JSON to XML</a></li>
+                <li role="presentation"><a href="xml2json.html"  role="tab" data-toggle="tab">XML to JSON</a></li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">&nbsp;&nbsp;</div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <textarea placeholder="input json to xml" id="json-src" class="form-control" rows="10"></textarea>
+    </div>
+    <div style="display: none" id="parseError" class="alert alert-danger alert-dismissible fade in" >
+      <pre id="parseErrorMsg" style="text-align: left;color: red;" >
+      </pre>
+    </div>
+    <div style="font-weight: bold">
+        <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+    </div>
+    <div class="panel panel-default" style="text-align: left">
+        <div class="panel-body result">
+            <pre id="json-target" style="background-color: white;border: none">
+            </pre>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.json.js"></script>
+<script src="js/jquery.xml2json.js"></script>
+<script src="js/jquery.json2xml.js"></script>
+<script src="js/jsonlint.js"></script>
+<script type="text/javascript">
+    var current_json_str = '';
+    $('#json-src').keyup(function(){
+        var content = $.trim($(this).val());
+        var result = '';
+        if (content!='') {
+            try{
+                content = content.replace(/[\r\n]/g,"");
+                current_json_str = JSON.stringify(jsonlint.parse(content));
+                result = $.json2xml(JSON.parse(content));
+                $('#json-target').text(result);
+            }catch(e){
+                result = '<span style="color: #f1592a;font-weight:bold;">' + e + '</span>';
+                current_json_str = result;
+                $('#json-target').html(result);
+            }
+        }else{
+            $('#json-target').html('');
+        }
+    });
+    $('#json-src').keyup();
+</script>
+</body>
+</html>
